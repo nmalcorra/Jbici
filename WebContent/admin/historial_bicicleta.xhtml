@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="admin.xhtml">
+	<ui:define name="title">
+			Historial Bicicletas - Administrador
+	</ui:define>
+
+	<ui:define name="admin_styles">
+		<!-- Data tables-->
+		<link rel="stylesheet" type="text/css"
+			href="//cdn.datatables.net/1.10.6/css/jquery.dataTables.css" />
+		<script type="text/javascript" charset="utf8"
+			src="//cdn.datatables.net/1.10.6/js/jquery.dataTables.js">
+    	</script>
+	</ui:define>
+
+	<ui:define name="content">
+		<div class="container">
+			<div class="panel panel-success">
+				<div class="panel-heading">
+					<h2 class="form-signin-heading">Historial de uso de la bicicleta</h2>
+				</div>
+				<div class="panel-body">
+					<h:dataTable
+						value="#{bicicletaBean.historial}"
+						var="h"
+						id="table_historial"
+						styleClass="table table-striped">
+						<h:column>
+							<!-- column header -->
+							<f:facet name="header">Fecha - Hora </f:facet>
+		    				<h:outputText value="#{h.fecha}">
+
+		    				</h:outputText>	
+		    			</h:column>
+						<h:column>
+							<f:facet name="header">Estado</f:facet>
+							#{h.estado.descripcion}
+		    			</h:column>
+
+      
+					</h:dataTable>
+				
+				
+				
+				</div>
+			</div>
+		</div>
+
+	</ui:define>
+</ui:composition>
+</html>
+

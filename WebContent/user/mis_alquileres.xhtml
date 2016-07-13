@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="home.xhtml">
+	<ui:define name="title">
+   		Mis Alquileres
+   </ui:define>
+   <ui:define name="home_styles">
+   		<!-- Data tables-->
+		<link rel="stylesheet" type="text/css"
+			href="//cdn.datatables.net/1.10.6/css/jquery.dataTables.css" />
+		<script type="text/javascript" charset="utf8"
+			src="//cdn.datatables.net/1.10.6/js/jquery.dataTables.js">
+    	</script>
+   </ui:define>
+
+	<ui:define name="content">
+		<div class="container">
+			<div class="panel panel-warning">
+				<div class="panel-heading">
+					<h2 class="form-signin-heading">Mis Alquileres</h2>
+				</div>
+				<div class="panel-body">
+				#{alquilerBean.clearBean}
+				<h:dataTable
+						value="#{alquilerBean.alquileres}"
+						var="a"
+						id="table_id">
+						<h:column>
+							<!-- column header -->
+							<f:facet name="header">#Id</f:facet>
+							<!-- row record -->
+	    					#{a.id}
+		    			</h:column>
+		    			<h:column>
+		    				<f:facet name="header">#Id - Bicicleta</f:facet>
+		    				#{a.bicicleta.id}
+		    			</h:column>
+		    			<h:column>
+		    				<f:facet name="header">Fecha de Alquiler</f:facet>
+		    				<h:outputText value="#{a.fecha_inicio}">
+		    					<f:convertDateTime pattern="dd/MM/yyyy" />
+		    				</h:outputText>		    				
+		    			</h:column>
+		    			<h:column>
+		    				<f:facet name="header">Fecha Limite Devolución</f:facet>
+		    				<h:outputText value="#{a.fecha_fin}">
+		    					<f:convertDateTime pattern="dd/MM/yyyy" />
+		    				</h:outputText>		    				
+		    			</h:column>
+						<h:column>
+							<f:facet name="header">Acciones</f:facet>
+	                            <h:form>
+		                            <h:commandButton
+		                            	value="Devolver" 
+		                            	id="modificar_btn"
+		                            	type="submit"
+		                            	action="#{alquilerBean.devolverForm(a.id)}" 
+		                            	styleClass="btn btn-success btn-md"/>
+		                                 
+		                            <h:commandButton 
+		                            	value="Denunciar" 
+		                            	id="eliminar_btn" 
+		                            	action="#{alquilerBean.denunciarForm(a.id)}"
+		                            	styleClass="btn btn-danger btn-md"/>	                            			    				
+		    					</h:form>
+		    			</h:column>		    						    					    			
+				</h:dataTable>
+				
+				</div>
+			</div>
+		</div>
+	<script type="text/javascript">
+	    $(document).ready( function () {
+	        $('#table_id').DataTable({
+	            "language": {
+	                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"}
+	        }); //inicializa datatable
+	    } );
+	</script>
+
+	</ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+	
+<ui:composition template="admin.xhtml">
+	<ui:define name="title">
+			Modificar Estacion - Administrador
+	</ui:define>
+	<ui:define name="head">
+			<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+			<script type="text/javascript" src="http://code.jquery.com/jquery-2.0.3.min.js" ></script>
+			<style>
+		        #mapa{
+		            width: 400px;
+		            height: 400px;
+		            float:left;
+		            background: green;
+		        }
+		        #infor{
+		            width: 400px;
+		            height: 400px;
+		            float:left;
+		        }
+		    </style>
+
+	</ui:define>
+
+<ui:define name="content">
+		<div class="container">
+			<div class="panel panel-success">	
+				<div class="panel-heading"><h2 class="form-signin-heading">Modificar Estacion</h2></div>
+				<div class="panel-body">			
+					<h:outputText value="#{EstacionBean.message}" escape="false"></h:outputText>		  					
+					<h:form role="form" class="form-horizontal" id="formulario" name="formulario">
+					  <div class="form-group">
+					    <label for="nombre_estacion" class="col-lg-2 control-label">Nombre</label>
+					    <div class="col-lg-10">
+					      <h:inputText 
+								value="#{EstacionBean.nombre}"
+								class="form-control" id="nombre_esta"
+								pt:placeholder="Nombre"
+								required="true" />
+					      <h:message for="nombre_esta" style="color:red" />
+					    </div>
+					  </div>
+					  <div class="form-group">
+					    <label for="cantidad_bicis" class="col-lg-2 control-label">Capacidad de estacionamiento</label>
+					    <div class="col-lg-10">
+					      <h:inputText 
+								value="#{EstacionBean.cant_bicis}"
+								class="form-control" id="cant_bicis"
+								pt:placeholder="Cantidad"
+								required="true" 
+					    		validatorMessage="El valor ingresado es incorrecto">
+								<f:convertNumber integerOnly="true"/>
+						  </h:inputText>
+						  <h:message for="cant_bicis" style="color:red" />
+					  </div>
+					  </div>
+					  <div class="form-group">
+					    <label for="codpostal" class="col-lg-2 control-label">Direccion postal</label>
+					    <div class="col-lg-10">
+					      <h:inputText 
+								value="#{EstacionBean.codpostal}"
+								class="form-control" id="codpostal"
+								pt:placeholder="Direccion Postal"
+								required="true" />
+						  <h:message for="codpostal" style="color:red" />	  						  
+					    </div>
+					  </div>
+					      <h:inputHidden 
+								value="#{EstacionBean.longitud}"
+								name="cx"
+								id="long"/>
+					      <h:inputHidden
+								value="#{EstacionBean.latitud}"
+								name="cy"
+								id="lat"
+								required="true"/>
+					    <div class="form-group">
+					    <label for="estado_estacion" class="col-lg-2 control-label">Estado</label>
+					    <div class="col-lg-10">
+					     	<h:selectOneMenu value="#{EstacionBean.estado}" styleClass="form-control">
+   								<f:selectItems 
+   									value="#{EstacionBean.estados}" var="e"
+   									itemLabel="#{e.descripcion}" 
+   									itemValue="#{e.id}"
+   									 />
+   							</h:selectOneMenu>
+					    </div>
+					  </div>
+					  <div class="form-group">
+					    <label for="ubicacion_estacion" class="col-lg-2 control-label">Ubicacion</label>
+					    <div class="col-lg-10">
+					     	<div id="mapa">
+        						<h2>Aquí irá el mapa!</h2>
+    						</div>
+    						<h:message for="lat" style="color:red" />	  		
+					    </div>
+					  </div>  
+					  <div class="form-group">
+					    <div class="col-lg-offset-2 col-lg-10">
+					      <h:commandButton action="#{EstacionBean.modificar_estacion}" name="submit" value="Modificar"
+							class="btn btn-primary">
+						</h:commandButton>	
+					    </div>
+					  </div>
+					</h:form>
+
+
+				</div>
+			</div>
+		</div>
+			<script>
+		 
+			 //VARIABLES GENERALES
+		    //ARRAY PARA ALMACENAR NUEVOS MARCADORES
+		    var marcadores_nuevos = [];
+		    
+		    //FUNCION PARA QUITAR MARCADORES DE MAPA
+		    function quitar_marcadores(lista)
+		    {
+		        //RECORRER EL ARRAY DE MARCADORES
+		        for (i in lista)
+		        {
+		            //QUITAR MARCADOR DEL MAPA
+		            lista[i].setMap(null);
+		        }
+		    }
+		    
+		    $(document).on("ready", function(){
+		        
+		        var formulario = $("#formulario");
+		        
+		        var punto = new google.maps.LatLng(-34.920495,-57.953566);
+		        var config = {
+		            zoom:14,
+		            center:punto,
+		            mapTypeId: google.maps.MapTypeId.ROADMAP
+		        };
+		        var mapa = new google.maps.Map( $("#mapa")[0], config );
+	
+		        
+		        var long_inicial = "#{EstacionBean.longitud}";
+		        var lat_inicial = "#{EstacionBean.latitud}";
+		        var direccion_inicial = new google.maps.LatLng(lat_inicial, long_inicial);
+			
+		        var marcador_inicial = new google.maps.Marker({
+		               position:direccion_inicial,
+		               map: mapa, 
+		               animation:google.maps.Animation.DROP,
+		               draggable:true
+		           });
+				
+		        marcadores_nuevos.push(marcador_inicial);
+		        marcador_inicial.setMap(mapa);
+		        google.maps.event.addListener(mapa, "click", function(event){
+		           var coordenadas = event.latLng.toString();
+		           
+		           coordenadas = coordenadas.replace("(", "");
+		           coordenadas = coordenadas.replace(")", "");
+		           
+		           var lista = coordenadas.split(",");
+		           
+		           var direccion = new google.maps.LatLng(lista[0], lista[1]);
+		           
+		           var marcador = new google.maps.Marker({
+		               position:direccion,
+		               map: mapa, 
+		               animation:google.maps.Animation.DROP,
+		               draggable:true
+		           });
+		           
+		         
+		           //PASAR LAS COORDENADAS  AL FORMULARIO
+		           formulario.find("input[id='formulario:lat']").val(parseFloat(lista[0]));
+		           formulario.find("input[id='formulario:long']").val(parseFloat(lista[1]));
+		               
+		           
+		           //DEJAR SOLO 1 MARCADOR EN EL MAPA
+		           //GUARDAR EL MARCADOR EN EL ARRAY 
+		           marcadores_nuevos.push(marcador);
+		           
+		           google.maps.event.addListener(marcador, "click", function(){
+		              
+		           });
+		           
+		           //ANTES DE UBICAR EL MARCADOR EN EL MAPA QUITAR TODOS LOS DEMAS
+		           // Y ASI SOLO DEJAR 1
+		           quitar_marcadores(marcadores_nuevos);
+		           //UBICAR EL MARCADOR EN EL MAPA
+		           marcador.setMap(mapa);
+		           
+		        });
+		
+		    });
+		      
+		</script>
+</ui:define>
+
+
+</ui:composition>
+</html>	
+  

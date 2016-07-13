@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="admin.xhtml">
+	<ui:define name="title">
+			Estadistica de estaciones - Administrador
+	</ui:define>
+
+	<ui:define name="admin_styles">
+		<!-- Data tables-->
+		<link rel="stylesheet" type="text/css"
+			href="//cdn.datatables.net/1.10.6/css/jquery.dataTables.css"/>
+		<script type="text/javascript" charset="utf8"
+			src="//cdn.datatables.net/1.10.6/js/jquery.dataTables.js">
+    	</script>
+	</ui:define>
+
+	<ui:define name="content">
+		<div class="container">
+			<div class="panel panel-success">
+				<div class="panel-heading">
+					<h2 class="form-signin-heading">Informacion estadistica de Bicicletas</h2>
+				</div>
+				<div class="panel-body">
+						<script src="http://code.jquery.com/jquery-1.4.2.min.js" type="text/javascript"></script>
+						<script src="http://www.google.com/jsapi" type="text/javascript"></script>
+						<script type="text/javascript">
+							//<![CDATA[
+							// Load the Visualization API and the piechart package.
+							google.load('visualization', '1.0', {
+								'packages' : [ 'corechart' ]
+							});
+					
+							// Set a callback to run when the Google Visualization API is loaded.
+							google.setOnLoadCallback(drawChart);
+					
+							// Callback that creates and populates a data table, 
+							// instantiates the pie chart, passes in the data and
+							// draws it.
+							function drawChart() {
+					
+								var url = "http://java2015.linti.unlp.edu.ar/jyaaGrupo8/rest/stats/Bicicleta"; // Completar con URL del servicio REST
+								$.getJSON(url, function(data){
+					
+								var googleData = new google.visualization.DataTable();
+								googleData.addColumn('string', 'operacion');
+								googleData.addColumn('number', 'cantidad');
+								var total = data.length;
+					
+								for(i=0;i<total;i++)
+								{
+									googleData.addRow([data[i].operacion, data[i].cantidad]); 
+								
+								}
+								
+								var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+								chart.draw(googleData, {width: 450, height: 300, title: 'Operaciones sobre Entidad Bicicleta', is3D: true});
+							});
+							}
+							//]]>
+						</script>
+						<div id="chart_div">
+						</div>
+				
+				
+				</div>
+			</div>
+		</div>
+	
+	</ui:define>
+
+</ui:composition>
+
+</html>	

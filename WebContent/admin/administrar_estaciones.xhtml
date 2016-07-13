@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="admin.xhtml">
+	<ui:define name="title">
+			Administrar Estaciones - Administrador
+			</ui:define>
+
+	<ui:define name="admin_styles">
+		<!-- Data tables-->
+		<link rel="stylesheet" type="text/css"
+			href="//cdn.datatables.net/1.10.6/css/jquery.dataTables.css"/>
+		<script type="text/javascript" charset="utf8"
+			src="//cdn.datatables.net/1.10.6/js/jquery.dataTables.js">
+    	</script>
+    	<script type="text/javascript">
+			function confirm_delete() {
+  				return confirm('¿Esta seguro de eliminar la estacion?');
+			}
+		</script>
+	</ui:define>
+
+	<ui:define name="content">
+		<div class="container">
+			<div class="panel panel-success">
+				<div class="panel-heading">
+					<h2 class="form-signin-heading">Listado de Estaciones</h2>
+				</div>
+				<div class="panel-body">
+
+					<h:dataTable
+						value="#{adminEstacionesBean.estaciones}"
+						var="e"
+						id="table_id">
+						<h:column>
+							<!-- column header -->
+							<f:facet name="header">Nombre</f:facet>
+							<!-- row record -->
+	    					#{e.nombre}
+		    			</h:column>
+
+						<h:column>
+							<f:facet name="header">Capacidad de estacionamiento</f:facet>
+		    				#{e.capacidad}
+		    			</h:column>
+
+						<h:column>
+							<f:facet name="header">Cant.Lugares libres</f:facet>
+		    				#{e.estacionamientosLibres}
+		    			</h:column>
+		    			
+		    			<h:column>
+							<f:facet name="header">Codigo Postal</f:facet>
+		    				<h:outputText id="codpostal" value="#{e.ubicacionEstacion.direccionPostal}" />
+		    			</h:column>	
+
+						<h:column>
+							<f:facet name="header">Estado</f:facet>
+		    				<h:outputText id="estado" value="#{e.estadoEstacion.descripcion}" />
+		    			</h:column>		    			
+						<h:column>
+							<f:facet name="header">Acciones</f:facet>
+						   	<h:form>		
+	                            <h:commandLink
+	                            	value="Modificar Estacion" 
+	                            	id="modificar_btn"
+	                            	action="#{EstacionBean.vista_modificar(e.idEstacion)}" 
+	                            	styleClass="btn btn-success btn-md"/>														
+	                            <h:commandLink
+	                            	value="Eliminar Estacion" 
+	                            	id="eliminar_btn" 
+	                            	onclick="return confirm_delete()"
+	                            	action="#{adminEstacionesBean.eliminar(e.idEstacion)}"
+	                            	styleClass="btn btn-danger btn-md"/>
+                            </h:form>   			
+                         </h:column>
+                         
+
+					</h:dataTable>
+
+				</div>
+			</div>
+		</div>
+	<script type="text/javascript">
+	    $(document).ready( function () {
+	        $('#table_id').DataTable({
+	            "language": {
+	                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"}
+	        }); //inicializa datatable
+	    } );
+	</script>
+	</ui:define>
+
+</ui:composition>
+
+</html>	

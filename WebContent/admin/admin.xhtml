@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	
+	
+<ui:composition template="/WEB-INF/facelets/base.xhtml">
+
+	<ui:define name="styles">
+		<link rel="stylesheet" href="../css/home.css"/>
+		<ui:insert name="admin_styles">
+		</ui:insert>
+	</ui:define>
+	
+  <ui:define name="head">
+  	 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"/>
+  	 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  </ui:define>
+	
+	<ui:define name="title">
+		Administrador - Panel
+	</ui:define>
+
+	<ui:define name="body">
+		<nav class="navbar navbar-default navbar-fixed-top">
+			<div class="container">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="navbar-header page-scroll">
+					<button type="button" class="navbar-toggle" data-toggle="collapse"
+						data-target="#bs-example-navbar-collapse-1">
+						<span class="sr-only">Toggle navigation</span> <span
+							class="icon-bar"></span> <span class="icon-bar"></span> <span
+							class="icon-bar"></span>
+					</button>
+
+					<a class="navbar-brand" href="admin.xhtml">
+						
+						<span class="glyphicon glyphicon-home"></span> JBici
+					</a>
+				</div>
+
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse"
+					id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav navbar-left">
+						<li class="hidden"><a href="#page-top"></a></li>
+						<li class="dropdown"><a href="#" class="dropdown-toggle"
+							data-toggle="dropdown" role="button" aria-expanded="false"
+							data-replace-tmp-key="estaciones">Estaciones <span
+								class="caret"></span></a>
+							<ul class="dropdown-menu" role="menu">
+								<li>
+								<h:form>
+								<h:commandLink
+								value="Agregar Estacion"
+								action="#{EstacionBean.vista_agregar}"
+								styleClass="salir">
+								</h:commandLink>
+								</h:form>
+								</li>
+								<li><a
+									href="administrar_estaciones.xhtml">Administrar
+										Estaciones</a></li>
+								<li><a href="stats_estaciones.xhtml">Información
+										estadística</a></li>
+							</ul></li>
+						<li class="dropdown"><a href="#" class="dropdown-toggle"
+							data-toggle="dropdown" role="button" aria-expanded="false"
+							data-replace-tmp-key="bicicletas">Bicicletas <span
+								class="caret"></span></a>
+							<ul class="dropdown-menu" role="menu">
+								<li>
+									<h:outputLink value="alta_bici.xhtml" >
+										Agregar Bicicleta
+									</h:outputLink>
+								</li>
+								<li>
+									<h:outputLink value="administrar_bicicletas.xhtml" >
+										Administrar Bicicletas
+									</h:outputLink>
+								</li>
+								<li>
+									<h:outputLink value="stats_bicicletas.xhtml" >
+										Informacion estadística
+									</h:outputLink>										
+								</li>
+							</ul></li>
+						<li class="dropdown"><a href="#" class="dropdown-toggle"
+							data-toggle="dropdown" role="button" aria-expanded="false"
+							data-replace-tmp-key="usuarios">Usuarios <span class="caret"></span></a>
+							<ul class="dropdown-menu" role="menu">
+								<li>
+									<h:outputLink value="administrar_usuarios.xhtml" >
+										Administrar Usuarios
+									</h:outputLink>	
+								</li>
+								<li>
+									<h:outputLink value="info_estadistica.xhtml" >
+										Informacion estadística
+									</h:outputLink>										
+								</li>
+							</ul></li>
+					</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li class="hidden"><a href="#page-top"></a></li>
+						<li class="dropdown">
+			              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+			              <span class="glyphicon glyphicon-user"></span>Mi cuenta 
+                            <span class="caret"></span></a>
+			              <ul class="dropdown-menu" role="menu">
+			                <li><a href="modificar_datos.xhtml">
+			                	<span class="glyphicon glyphicon-cog"></span>Modificar mis datos
+			                	</a>
+			                </li>
+			                <li><a href="cambiar_clave.xhtml">
+			                	<span class="glyphicon glyphicon-flag"></span>Cambiar Contraseña
+			                	</a>
+			                </li>			                
+			                <li>
+                    			<h:form>
+									<h:commandLink 
+										action="#{loginBean.logout}"
+										styleClass="salir">
+										  <span class="glyphicon glyphicon-log-out"></span>Salir
+									</h:commandLink>
+								</h:form>
+							</li>
+			              </ul>
+         		   		</li>
+					</ul>
+				</div>
+				<!-- /.navbar-collapse -->
+			</div>
+			<!-- /.container-fluid -->
+		</nav>
+
+		<ui:insert name="content">
+			<div class="jumbotron other-color">
+				<div class="container">
+					#{userBean.clearBean}
+					#{bicicletaBean.clearMessage}
+					
+					<h2>Bienvenido #{userBean.user.nombre} !</h2>
+					<br/>
+					<p> Como administrador del Sistema usted podrá: <br/>
+					 	- Administrar las estaciones. <br/>
+					 	- Administrar las bicicletas. <br/>
+					 	- Habilitar/Deshabilitar usuarios. <br/>
+					 	- Obtener información estadística. <br/>
+					</p>
+				</div>
+			</div>
+		</ui:insert>
+	</ui:define>
+</ui:composition>
+
+</html>

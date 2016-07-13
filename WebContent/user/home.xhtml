@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+	
+	
+<ui:composition template="/WEB-INF/facelets/base.xhtml">
+	<ui:define name="title">
+		Bienvenido a Jbici
+	</ui:define>
+
+	<ui:define name="styles">
+		<link rel="stylesheet" href="../css/home.css"/>
+		<ui:insert name="home_styles">
+		</ui:insert>		
+	</ui:define>
+	
+	
+    <ui:define name="body">
+	<nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <!-- Mobile display -->
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="home.xhtml">
+                    <span class="glyphicon glyphicon-home"></span>
+                     JBici
+                </a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-left">
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>
+                    <li class="dropdown">
+			              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" data-replace-tmp-key="estaciones">Estaciones <span class="caret"></span></a>
+			              <ul class="dropdown-menu" role="menu">
+			                <li><a href="mapa_estaciones.xhtml">Mapa de estaciones</a></li>
+			                <li><a href="listado_estaciones.xhtml">Listado de estaciones</a></li>
+			              </ul>
+         		   </li>
+         		   <li class="dropdown">
+			              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Alquiler 
+                            <span class="caret"></span></a>
+			              <ul class="dropdown-menu" role="menu">
+			                <li><a href="retirar_bicicleta.xhtml">Retirar bicicleta</a></li>
+			                <li><a href="mis_alquileres.xhtml">Alquileres activos</a></li>
+			                <li><a href="historial_alquileres.xhtml">Historial Alquileres</a></li>
+			              </ul>
+         		   </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>                
+                	<li class="dropdown">
+			              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+			              <span class="glyphicon glyphicon-user"></span>Mi cuenta 
+                            <span class="caret"></span></a>
+			              <ul class="dropdown-menu" role="menu">
+			                <li><a href="modificar_datos.xhtml">
+			                	<span class="glyphicon glyphicon-cog"></span>Modificar mis datos
+			                	</a>
+			                </li>
+			                <li><a href="cambiar_clave.xhtml">
+			                	<span class="glyphicon glyphicon-flag"></span>Cambiar Contraseña
+			                	</a>
+			                </li>
+			                <li>
+                    			<h:form>
+									<h:commandLink 
+										action="#{loginBean.logout}"
+										styleClass="salir">
+										  <span class="glyphicon glyphicon-log-out"></span>Salir
+									</h:commandLink>
+								</h:form>
+							</li>
+			              </ul>
+         		   		</li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+    <ui:insert name="content">
+     <div class="jumbotron other-color">
+      <div class="container">
+      	#{userBean.clearBean}
+      	#{alquilerBean.clearBean}
+        <h1>Bienvenido #{userBean.nombre}! </h1>
+        <p><b>Su clave por defecto es: '1234', para cambiarla acceda a Cambiar contraseña</b> </p>
+        <p>
+        El ciclismo urbano es toda una tendencia en la actualidad, pues no solo ofrece múltiples ventajas para la salud, sino 
+        también, es un noble medio de transporte que permite ahorrar dinero y cuidar el medio ambiente.   Además,   los   sistemas   de   bicicleta   pública   cobran  
+vida   y   se   extienden   ampliamente   en   diversos   países   del   mundo,   con   lo   cual,   cada   vez   es   más  
+fácil   hacerse   de   una   bici   y   recorrer   la   ciudad   con   ella.   Ejemplos   de   estos   sistemas   públicos  
+son Bike Rio 1 , Barclays Bike 2 . 
+Por   otro   lado,   hay   movimientos   de   ciclistas   que   impulsan   la   bicicleta   como   estilo   de  
+vida   urbano   y   hasta   fomentan   la   creación   de   grupos   sociales   que   defienden   la   tendencia,   por  
+ello   y   por   todo   lo   antes   dicho,   hoy   la   bicicleta   urbana   es   toda   una   moda   saludable   a   la   cual  
+podemos apuntarnos con facilidad. 
+Todos   los   estudios   nacionales   e   internacionales   nos   dicen   que   la   bicicleta   es   el   modo  
+de   transporte   que   más   facilita   una   mayor   satisfacción   en   el   desplazamiento   habitual.   El  
+usuario   de   automóvil   vive   con   frecuencia   momentos   de   estrés,   causados   por   carreteras  
+atascadas,   y   en   ocasiones   de   ira,   relacionados   con   pequeñas   disputas   por   el   espacio   con  
+otros   conductores.   La   movilidad   activa   (bicicleta   y   andar)   ofrece   un   mayor   bienestar   subjetivo.  
+Para   recorrer   distancias   inferiores   a   siete   u   ocho   kilómetros   la   bicicleta   debe   privilegiarse  
+como alternativa de transporte individual por parte de los municipios. 
+        </p>
+      </div>
+    </div>
+    </ui:insert>
+    </ui:define>
+    </ui:composition>
+</html>

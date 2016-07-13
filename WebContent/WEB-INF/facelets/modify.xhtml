@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:f="http://java.sun.com/jsf/core"
+	  xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+    
+    <body>
+	    <ui:composition>
+ 
+		<div class="container">
+			<div class="panel panel-success">	
+				<div class="panel-heading"><h2 class="form-signin-heading">Modificar Datos</h2></div>
+				<div class="panel-body">
+				<h:outputText value="#{userBean.message}" escape="false"></h:outputText>
+					<h:form role="form" class="form-horizontal" id="formId">	
+					  <div class="form-group">
+					    <label for="nombre" class="col-lg-2 control-label">Nombre/s</label>
+					    <div class="col-lg-10">
+					      <h:inputText 
+								value="#{userBean.nombre}"
+								class="form-control" id="nombre_us"
+								pt:placeholder="Nombre"
+								required="true" />
+						  <h:message for="nombre_us" style="color:red" />	  
+					    </div>
+					  </div>
+					  <div class="form-group">
+					    <label for="apellido" class="col-lg-2 control-label">Apellido</label>
+					    <div class="col-lg-10">
+					      <h:inputText 
+								value="#{userBean.apellido}"
+								class="form-control" id="apellido"
+								pt:placeholder="Apellido"
+								required="true" />
+						  <h:message for="apellido" style="color:red" />	  
+					    </div>
+					  </div>
+					  <div class="form-group">
+					    <label for="dni" class="col-lg-2 control-label">DNI</label>
+					    <div class="col-lg-10">
+					      <h:inputText 
+								value="#{userBean.dni}"
+								class="form-control" id="dni"
+								pt:placeholder="DNI"
+								required="true" 
+								validatorMessage="El DNI es incorrecto">
+								<f:convertNumber integerOnly="true"/>
+						</h:inputText>
+						<h:message for="dni" style="color:red" />
+					    </div>
+					  </div>
+					  <div class="form-group">
+					    <label for="domicilio" class="col-lg-2 control-label">Domicilio</label>
+					    <div class="col-lg-10">
+					      <h:inputText 
+								value="#{userBean.domicilio}"
+								class="form-control" id="domicilio"
+								pt:placeholder="Domicilio"
+								required="true" />
+						  <h:message for="domicilio" style="color:red" />
+					    </div>
+					   </div>
+					    <div class="form-group">
+					    <label for="fecha_nac" class="col-lg-2 control-label">Fecha de nacimiento</label>
+					    <div class="col-lg-10">
+					    	<h:inputText 
+								value="#{userBean.fechan}" 
+								class="form-control"
+								id="fechan"
+								required="true"
+								validatorMessage="La fecha ingresada es invalida">	
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+								</h:inputText>
+								<h:message for="fechan" style="color:red" />
+					    </div>
+					  </div>
+					    <div class="form-group">
+					    <label for="sexo" class="col-lg-2 control-label">Sexo</label>
+					    <div class="col-lg-10">
+					      <h:selectOneMenu name="sexo" value="#{userBean.sexo}">
+						   	<f:selectItem itemValue="M" itemLabel="Masculino" />
+						   	<f:selectItem itemValue="F" itemLabel="Femenino" />
+						  </h:selectOneMenu>
+					    </div>
+					  </div>
+					  <div class="form-group">
+					    <label for="email" class="col-lg-2 control-label">Email</label>
+					    <div class="col-lg-10">
+					      <h:inputText 
+								value="#{userBean.email}"
+								class="form-control" id="email"
+								pt:placeholder="Email"								
+								required="true" 
+								validatorMessage="La direccion de email es invalida">
+								<f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" /> 
+						 </h:inputText>
+						 <h:message for="email" style="color:red"/>
+
+					    </div>
+					  </div>
+					  <div class="form-group">
+					    <label for="password" class="col-lg-2 control-label">Ingrese Contraseña:</label>
+					    <div class="col-lg-10">
+					 	  <h:inputSecret value="#{userBean.pass_verify}" class="form-control" id="password" required="true"/>
+					 	  <h:message for="password" style="color:red" />	  
+					    </div>  
+					  </div>
+					  <div class="form-group">
+					    <div class="col-lg-offset-2 col-lg-10">
+							<h:commandButton action="#{userBean.actualizar}" name="submit" value="Actualizar"
+							class="btn btn-success">
+							</h:commandButton>	
+					    </div>
+					  </div>
+					</h:form>
+
+
+				</div>
+			</div>
+		</div>
+		
+	  <!-- Datepicker -->
+	  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"/>
+  	  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+	  <script>
+			$(function() {
+			$( "#formId\\:fechan" ).datepicker({
+			      changeMonth: true,
+			      changeYear: true,
+			      dateFormat: "dd/mm/yy"
+				});
+			});
+	  </script>
+
+	    </ui:composition>
+    </body>
+</html>
+
+ 

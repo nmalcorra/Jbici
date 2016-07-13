@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+<body>
+	<ui:composition>
+		<div class="container">
+			<div class="panel panel-warning">
+				<div class="panel-heading">
+					<h2 class="form-signin-heading">Cambiar Contraseña</h2>
+				</div>
+				<div class="panel-body">
+				<h:outputText value="#{userBean.message}" escape="false"></h:outputText>
+					<h:form role="form" class="form-horizontal" id="formId">
+						<div class="form-group">
+							<label for="nombre" class="col-lg-2 control-label">Contraseña actual:</label>
+							<div class="col-lg-10">
+								<h:inputSecret value="#{userBean.pass_verify}" class="form-control"
+									id="actual" pt:placeholder="Contraseña actual" required="true" 
+									requiredMessage="Debes ingresar tu contraseña actual">
+									
+									</h:inputSecret>
+									
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="nombre" class="col-lg-2 control-label">Nueva contraseña:</label>
+							<div class="col-lg-10">
+								<h:inputSecret value="#{userBean.new_pass}" class="form-control"
+									id="nueva" pt:placeholder="Nueva Contraseña" required="true" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="nombre" class="col-lg-2 control-label">Repita contraseña nueva:</label>
+							<div class="col-lg-10">
+								<h:inputSecret value="#{userBean.new_pass_repeat}" class="form-control"
+									id="nueva_repeat" pt:placeholder="Repetir nueva contraseña" required="true" />
+							</div>
+						</div>
+					  <div class="form-group">
+					    <div class="col-lg-offset-2 col-lg-10">
+							<h:commandButton action="#{userBean.cambiarPassword}" name="submit" value="Actualizar contraseña"
+							class="btn btn-success">
+							</h:commandButton>	
+					    </div>
+					  </div>																		
+					</h:form>
+				</div>
+			</div>
+		</div>
+	</ui:composition>
+</body>
+</html>

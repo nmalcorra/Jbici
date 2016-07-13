@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="admin.xhtml">
+	<ui:define name="title">
+			Administrar Bicicletas - Administrador
+	</ui:define>
+
+	<ui:define name="admin_styles">
+		<!-- Data tables-->
+		<link rel="stylesheet" type="text/css"
+			href="//cdn.datatables.net/1.10.6/css/jquery.dataTables.css" />
+		<script type="text/javascript" charset="utf8"
+			src="//cdn.datatables.net/1.10.6/js/jquery.dataTables.js">
+    	</script>
+	</ui:define>
+
+	<ui:define name="content">
+		<div class="container">
+			<div class="panel panel-success">
+				<div class="panel-heading">
+					<h2 class="form-signin-heading">Listado de Bicicletas</h2>
+				</div>
+				<div class="panel-body">
+					<h:dataTable
+						value="#{bicicletaBean.bicicletas}"
+						var="b"
+						id="table_id">
+						<h:column>
+							<!-- column header -->
+							<f:facet name="header">#Id</f:facet>
+							<!-- row record -->
+	    					#{b.idBicicleta}
+		    			</h:column>
+
+						<h:column>
+							<f:facet name="header">Fecha de Ingreso</f:facet>
+		    				<h:outputText value="#{b.fechaIngreso}">
+		    					<f:convertDateTime pattern="dd/MM/yyyy" />
+		    				</h:outputText>
+		    				
+		    			</h:column>
+
+						<h:column>
+							<f:facet name="header">Estación Actual</f:facet>
+		    				#{b.estacionActual.nombre}
+		    			</h:column>
+
+						<h:column>
+						
+							<f:facet name="header">Acciones</f:facet>
+	                            <h:form>
+		                            <h:commandLink
+		                            	value="Modificar" 
+		                            	id="modificar_btn"
+		                            	type="submit"
+		                            	action="#{bicicletaBean.modificarForm(b.idBicicleta)}" 
+		                            	styleClass="btn btn-success btn-md"/>
+		                                 
+		                            <h:commandButton 
+		                            	value="Eliminar" 
+		                            	id="eliminar_btn" 
+		                            	actionListener="#{bicicletaBean.eliminarBicicleta(b.idBicicleta)}"
+		                            	styleClass="btn btn-danger btn-md"/>
+		                         	<h:commandButton 
+		                            	value="Ver Historial" 
+		                            	id="historial_btn" 
+		                            	action="#{bicicletaBean.verHistorial(b.idBicicleta)}"
+		                            	styleClass="btn btn-warning btn-md"/>	                            			    				
+		    					</h:form>
+		    			</h:column>
+      
+
+					</h:dataTable>
+				
+				
+				
+				</div>
+			</div>
+		</div>
+	<script type="text/javascript">
+	    $(document).ready( function () {
+	        $('#table_id').DataTable({
+	            "language": {
+	                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"}
+	        }); //inicializa datatable
+	    } );
+	</script>
+	</ui:define>
+</ui:composition>
+</html>
+

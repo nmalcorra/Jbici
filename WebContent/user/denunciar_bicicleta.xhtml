@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="home.xhtml">
+	<ui:define name="title">
+   		Denunciar Bicicleta
+   </ui:define>
+
+	<ui:define name="content">
+		<div class="container">
+			<div class="panel panel-danger">
+				<div class="panel-heading">
+					<h2 class="form-signin-heading">Denuncia de Bicicleta</h2>
+				</div>
+				<div class="panel-body">
+					<div class='alert alert-warning'>
+					Por favor ingrese el motivo de la denuncia de la bicicleta, usted podrá continuar utilizando 
+					la bicicleta luego de efectuar la denuncia.<br/>
+					NOTA: Recuerda que sólo puedes efectuar UNA denuncia.
+					
+					</div>
+					<h:form role="form" class="form-horizontal" id="formulario" name="formulario">
+						<div class="form-group">
+							<div class="col-lg-offset-2 col-lg-5">
+								<h:inputTextarea cols="100" rows="10"
+									value="#{alquilerBean.motivoDenuncia}"
+									required="true" />
+							</div>
+						</div>
+
+						<div class="form-group">
+							<div class="col-lg-offset-2 col-lg-5">
+								
+								<h:commandButton action="#{alquilerBean.denunciarBicicleta}" 
+								class="btn btn-danger" value="Efectuar Denuncia">
+								</h:commandButton>	
+							</div>
+						</div>
+					</h:form>
+					
+				<h:outputText value="#{alquilerBean.message}" escape="false"></h:outputText>
+				
+				</div>
+				<div class="panel-footer"></div>
+			</div>
+			
+		</div>
+
+
+	</ui:define>
+</ui:composition>
+</html>

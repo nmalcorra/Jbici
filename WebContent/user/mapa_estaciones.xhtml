@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+	
+<ui:composition template="home.xhtml">
+	<ui:define name="title">
+			Mapa de Estaciones
+	</ui:define>
+	<ui:define name="head">
+			<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+			<script type="text/javascript" src="http://code.jquery.com/jquery-2.0.3.min.js" ></script>
+			<style>
+		        #mapa{
+		            width: 1000px;
+		            height: 540px;
+		            float:left;
+		            background: white;
+		        }
+		        #infor{
+		            width: 1000px;
+		            height: 540px;
+		            float:left;
+		        }
+		    </style>
+			<script>	
+
+	$(document).on("ready", function() {
+		 	var marcadores= [];
+		    
+		    var punto = new google.maps.LatLng(-34.920495, -57.953566);
+			var config = {
+				zoom : 14,
+				center : punto,
+				mapTypeId : google.maps.MapTypeId.ROADMAP
+			};
+			
+			var mapa = new google.maps.Map($("#mapa")[0], config);
+			$.getJSON("http://java2015.linti.unlp.edu.ar/jyaaGrupo8/rest/estaciones/listado",
+			        function(data){
+						var infowindow = new google.maps.InfoWindow();
+						for (var e in data)
+						{				           	
+							  var latitud = parseFloat(data[e].ubicacionEstacion.latitud);
+							  var longitud = parseFloat(data[e].ubicacionEstacion.longitud);
+							  
+							  var marcador = new google.maps.Marker({
+					               position:new google.maps.LatLng(latitud, longitud),
+					               map: mapa, 
+					               animation:google.maps.Animation.DROP,
+					               draggable:false
+					           });
+					          
+							 
+							  marcador.setMap(mapa);	
+							  
+							  google.maps.event.addListener(marcador, 'click', (function(marcador, e) {
+							        return function() {
+							          infowindow.setContent("Nombre: " + data[e].nombre + ", Capacidad: "+ data[e].capacidad + ", Estado: " + data[e].estadoEstacion.descripcion + ", Lugares libres: " + data[e].estacionamientosLibres);
+							          infowindow.open(mapa, marcador);
+							        }
+							      })(marcador, e));
+						}
+					});
+				});
+			</script>
+	</ui:define>
+
+<ui:define name="content">
+		<div class="container">
+			<div class="panel panel-info">	
+				<div class="panel-heading"><h2 class="form-signin-heading">Mapa de Estaciones</h2></div>
+				<div class="panel-body">			
+					     	<div id="mapa">
+    						</div>
+				</div>
+			</div>
+		</div>
+
+</ui:define>
+
+</ui:composition>
+</html>	
+  

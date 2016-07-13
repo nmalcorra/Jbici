@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<ui:composition template="admin.xhtml">
+	<ui:define name="title">
+			Administrar Usuarios - Administrador
+	</ui:define>
+
+	<ui:define name="admin_styles">
+		<!-- Data tables-->
+		<link rel="stylesheet" type="text/css"
+			href="//cdn.datatables.net/1.10.6/css/jquery.dataTables.css"/>
+		<script type="text/javascript" charset="utf8"
+			src="//cdn.datatables.net/1.10.6/js/jquery.dataTables.js">
+    	</script>
+	</ui:define>
+
+	<ui:define name="content">
+		<div class="container">
+			<div class="panel panel-success">
+				<div class="panel-heading">
+					<h2 class="form-signin-heading">Listado de Usuarios</h2>
+				</div>
+				<div class="panel-body">
+
+					<h:dataTable
+						value="#{adminBean.users}"
+						var="u"
+						id="table_id">
+						<h:column>
+							<!-- column header -->
+							<f:facet name="header">DNI</f:facet>
+							<!-- row record -->
+	    					#{u.dni}
+		    			</h:column>
+
+						<h:column>
+							<f:facet name="header">Apellido y Nombre</f:facet>
+		    				#{u.apellido} #{u.nombre}
+		    			</h:column>
+
+						<h:column>
+							<f:facet name="header">E-mail</f:facet>
+		    				#{u.email}
+		    			</h:column>
+
+						<h:column>
+							<f:facet name="header">Domicilio</f:facet>
+		    				#{u.domicilio}
+		    			</h:column>
+						<h:column>
+							<f:facet name="header">Estado</f:facet>
+		    				<h:outputText id="estado" value="#{u.estado}" />
+		    			</h:column>		    			
+						<h:column>
+							<f:facet name="header">Acciones</f:facet>
+						   <h:form>								
+	                            <h:commandButton 
+	                            	value="Habilitar Usuario" 
+	                            	id="habilitar_btn"
+	                            	actionListener="#{adminBean.habilitar(u.idUsuario)}" 
+	                            	styleClass="btn btn-success btn-md"/>
+	
+	                            <h:commandButton 
+	                            	value="Deshabilitar Usuario" 
+	                            	id="deshabilitar_btn" 
+	                            	actionListener="#{adminBean.deshabilitar(u.idUsuario)}"
+	                            	styleClass="btn btn-danger btn-md"/>
+
+                            </h:form>    			
+                         </h:column>
+                         
+
+					</h:dataTable>
+				
+				</div>
+			</div>
+		</div>
+	<script type="text/javascript">
+	    $(document).ready( function () {
+	        $('#table_id').DataTable({
+	            "language": {
+	                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"}
+	        }); //inicializa datatable
+	    } );
+	</script>
+	</ui:define>
+
+</ui:composition>
+
+</html>	
